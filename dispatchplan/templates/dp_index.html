@@ -1,0 +1,197 @@
+{% extends "basenew.html" %}
+{% load static %}
+
+
+{% block head %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    Shadowbox.init({
+    overlayOpacity: "0.5"
+    });
+    
+    function add() {
+        Shadowbox.open({ 
+            content:    '/insurance_adj_add/', 
+            player:     "iframe", 
+            title:      "{{nametittle}}", 
+            height:     500, 
+            width:      1000 
+        }); 
+    };
+
+    google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        ['Customers','Transferred', 'Items Left', 'Back Order', { role: 'link' } ],
+
+         {% for datacust  in datacusts %}
+            ['{{ datacust.0 }} -> Inv.Date:({{ datacust.1 }})', {{ datacust.4 }}, {{ datacust.8 }}, {{ datacust.6 }},  '/dispatchplan/{{ plid }}/{{ datacust.7 }}'],
+
+         {% endfor %}
+
+      ]);
+
+        var options = {
+            
+          chart: {
+            title: 'Disptpach Plan',
+            subtitle: 'Customers Transferred and Items Left',
+          },
+          series: {
+            0:{color:'#1c0ee0'},
+            1:{color:'#0ee05b'},
+            2:{color:'#e0270e'}
+             },
+            bar: { groupWidth: '75%' },
+            bars: 'horizontal', // Required for Material Bar Charts.
+            isStacked: true
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('chart_div'));
+        google.visualization.events.addListener(chart, 'select', function (e) {
+            var selection = chart.getSelection();
+                if (selection.length) {
+                    var row = selection[0].row;
+                    let link =data.getValue(row, 4);
+                    location.href = link;
+                }
+        });
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    
+
+    <div class="row">
+        <div class="col-xl-6">
+            <h1 class="mt-4">Dispatch Plan </h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Dashboard </li>
+                
+            </ol>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <table>
+                <tr>
+                    <td>
+                        <div class="bg-image hover-zoom">
+                            <a href="/netsuite/dp_refreshnetsuite" ><img src="{% static '/images/Refresh NetSuite.gif' %}" class="w-100" tittle="Add Customer" width="45" height="45"alt=""></a>
+                        </div>
+                    </td>
+                    <td >
+                        <p class="p-2 h6">updated at:<br/> {{ updated }}</p>
+                    </td>
+                </tr>
+            </table>
+                
+        </div>
+    </div>
+
+    <div class="row">
+
+    {% for pldata  in pldatas %}
+
+    {% if forloop.counter|divisibleby:10 %}
+            </div>
+            <div class="row">
+            {% endif %}
+
+
+        <div class="col">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">{{ pldata.1 }}</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="/dispatchplan/{{ pldata.0 }}/all">Customers: {{ pldata.2 }}</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+    
+    </div> 
+
+       
+    <div class="row">
+        <div class="card mb-4">
+            
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    {{ regs.0.0 }}
+                </div>
+                <div class="card-body"><div id="chart_div" style="height: 800px; width: 100%;"></div>            </div>
+            
+        </div>
+    </div>
+    <div class="row">
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+          
+            <table id="datatable" class="table table-hover table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" >
+                <thead >
+                    <tr>
+                        <td width="16%">Production Line</td>
+                        <td width="16%">Section</td>
+                        <td width="21%">Need By</td>
+                        <td width="7%">Customer</td>
+                        <td width="8%">MO</td>
+                        <td width="8%">Total Items </td>
+                        <td width="8%">Transfered</td>
+                        <td width="11%">Items Left</td>
+                        <td width="11%">Back Order</td>
+                        <td width="5%">Options</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reg  in regs %}
+                    <tr>
+                        <td> {{ reg.0 }}</td>
+                        <td> {{ reg.1 }} </td>
+                        <td> {{ reg.2 }}</td>
+                        <td> {{ reg.3 }}</td>
+                        <td> {{ reg.4 }}</td>
+                        <td> {{ reg.5 }}</td>
+                        <td> {{ reg.6 }}</td>
+                        <td> {{ reg.7 }}</td>
+                        <td> {{ reg.8 }}</td>
+                        <td>
+                            <a href="javascript:edt({{reg.1}})" class="btn btn-secondary btn-circle btn-xl">E</a>
+                            <a href="javascript:del({{reg.1}})" class="btn btn-danger btn-delete btn-circle btn-xl">X</a>
+                        </td>
+    
+                    </tr>
+    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</div>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<script>
+    $(document).ready(function() {
+      $('#datatable').dataTable({
+            dom: 'iBfrtip',
+            buttons: 
+                ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+      
+       $("[data-toggle=tooltip]").tooltip();
+            
+    });
+            
+
+    </script>
+{% endblock %}

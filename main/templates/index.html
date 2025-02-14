@@ -1,0 +1,80 @@
+{% extends "basenew.html" %}
+{% load static %}
+{% block content %}
+ <!-- Outer Row -->
+ <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+
+            {% if user.is_authenticated %}
+            <div class="col-lg-6  align-self-center" >
+                <img width="560" height="315" src="{% static '/images/ecd build.webp' %}" alt="ECD Build">
+              
+            </div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                               
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  </div>
+                Hi {{ user.username }}!
+                {% else %}
+                <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                  </div>
+                <div class="text-center">
+                    <form class="text-center" action="login" method="POST"> {% csrf_token %}
+                    <div class="form-group">
+                      <div class="form-label-group">
+                      <input type="text" class="form-control form-control-user" id="iduser" name="iduser" aria-describedby="emailHelp" placeholder="Enter Id user...">
+                      <label for="iduser">User</label>
+                    </div>
+                    </div>
+                      <div class="form-label-group">
+                      <input type="password" class="form-control form-control-user" id="password"  name="password" placeholder="Password">
+                      <label for="password">Password</label>
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                      </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-user btn-block"  value="Login">
+                     
+                    
+                  </form>
+                  {% for message in messages %}
+                  <div class="alert alert-danger" role="alert" with="80%">
+                    {{ message }}
+                    
+                  </div>
+
+                  </div>
+                  
+                  {% endfor %}
+
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                  </div>
+                {% endif %}
+
+                
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+{% endblock %}

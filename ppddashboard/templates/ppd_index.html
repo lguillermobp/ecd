@@ -1,0 +1,261 @@
+{% extends "basenew.html" %}
+{% load static %}
+
+
+{% block head %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawVisualization);
+
+  function drawVisualization() {
+    // Some raw data (not necessarily accurate)
+    var data = google.visualization.arrayToDataTable([
+      ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+      ['2004/05',  165,      938,         522,             998,           450,      614.6],
+      ['2005/06',  135,      1120,        599,             1268,          288,      682],
+      ['2006/07',  157,      1167,        587,             807,           397,      623],
+      ['2007/08',  139,      1110,        615,             968,           215,      609.4],
+      ['2008/09',  136,      691,         629,             1026,          366,      569.6]
+    ]);
+
+    var options = {
+      title : 'Monthly Coffee Production by Country',
+      vAxis: {title: 'Cups'},
+      hAxis: {title: 'Month'},
+      seriesType: 'bars',
+      series: {5: {type: 'line'}}
+    };
+
+    var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+  }
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    
+
+    <div class="row">
+        <div class="col-xl-6">
+            <h1 class="mt-4">PPD </h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Dashboard </li>
+                
+            </ol>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <table>
+                <tr>
+                    <td>
+                        <div class="bg-image hover-zoom">
+                            <a href="ppd_refreshnetsuite" ><img src="{% static '/images/Refresh NetSuite.gif' %}" class="w-100" tittle="Add Customer" width="45" height="45"alt=""></a>
+                        </div>
+                    </td>
+                    <td >
+                        <p class="p-2 h6">updated at:<br/> {{ updated }}</p>
+                    </td>
+                </tr>
+            </table>
+                
+        </div>
+    </div>
+
+    
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">North Line</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">Center Line</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">Boutique</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">South Line Mustang</div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white stretched-link" href="#">View Details</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    Summary Weekly 
+                </div>
+                <div class="card-body"><div id="ChartPPDCustomers" style="height: 370px; width: 100%;"></div></div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Summary Monthly
+                </div>
+                <div class="card-body"><div id="chart_div" style="height: 370px; width: 100%;"></div>            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+        </div>
+        <div class="card-body">
+          
+            <table id="datatable" class="table table-hover table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%" >
+                <thead >
+                    <tr>
+                        <td width="16%">Vendor</td>
+                        <td width="16%">Tracking</td>
+                        <td width="21%">Group</td>
+                        <td width="7%">NetSuite PO</td>
+                        <td width="8%">Budgeted Cash</td>
+                        <td width="8%">Cash Purchase </td>
+                        <td width="8%">Difference</td>
+                        <td width="11%">Status</td>
+                        <td width="5%">Options</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reg  in regs %}
+                    <tr>
+                        <td> {{ reg.4 }}</td>
+                        <td> {{ reg.14 }} <br/> {{ reg.15 }}</td>
+                        <td> {{ reg.5 }}</td>
+                        <td> {{ reg.8 }}</td>
+                        <td> {{ reg.6 }}</td>
+                        <td> {{ reg.10 }}</td>
+                        <td> 0 </td>
+                        <td> {{ reg.11 }}</td>
+                        <td>
+                            <a href="javascript:edt({{reg.1}})" class="btn btn-secondary btn-circle btn-xl">E</a>
+                            <a href="javascript:del({{reg.1}})" class="btn btn-danger btn-delete btn-circle btn-xl">X</a>
+                        </td>
+    
+                    </tr>
+    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</div>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<script>
+    $(document).ready(function() {
+      $('#datatable').dataTable({
+            dom: 'iBfrtip',
+            buttons: 
+                ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+      
+       $("[data-toggle=tooltip]").tooltip();
+
+        var chart1 = new CanvasJS.Chart("ChartPPDCustomers", {
+            animationEnabled: true,
+            title:{
+                text: "PPD Customers"
+            },	
+            axisY: {
+                title: "Status",
+                titleFontColor: "#4F81BC",
+                lineColor: "#4F81BC",
+                labelFontColor: "#4F81BC",
+                tickColor: "#4F81BC"
+            },
+            
+            toolTip: {
+                shared: true
+            },
+            legend: {
+                cursor:"pointer"
+            },
+            data:  
+            [
+                {
+                    "type": "column",	
+                    "name": "November 2024",
+                    "legendText": "November 2024",
+                    "axisYType": "secondary",
+                    "showInLegend": true,
+                    "dataPoints":[
+                        { "label": "Pending Supervisor Approval", "y": 4 },
+                        { "label": "Pending Receipt", "y": 36 },
+                        { "label": "Partially Received", "y": 67 },
+                        { "label": "No Placed yet", "y": 2 }
+                    ]
+                },    
+                {
+                    "type": "column",
+                    "name": "December 2024",
+                    "legendText": "December 2024",
+                    "showInLegend": true, 
+                    "dataPoints":[
+                        { "label": "Pending Supervisor Approval", "y": 56 },
+                        { "label": "Pending Receipt", "y": 32 },
+                        { "label": "Partially Received", "y": 8 },
+                        { "label": "No Placed yet", "y": 67 }
+                    ]
+                },
+                {
+                    "type": "column",	
+                    "name": "January 2025",
+                    "legendText": "January 2025",
+                    "axisYType": "secondary",
+                    "showInLegend": true,
+                    "dataPoints":[
+                        { "label": "Pending Supervisor Approval", "y": 86 },
+                        { "label": "Pending Receipt", "y": 5 },
+                        { "label": "Partially Received", "y": 12 },
+                        { "label": "No Placed yet", "y": 65 }
+                    ]
+                }
+            
+            ]
+        });
+        chart1.render();
+
+        function toggleDataSeries(e) {
+            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            }
+            else {
+                e.dataSeries.visible = true;
+            }
+            
+        }
+            
+    });
+            
+
+    </script>
+{% endblock %}
