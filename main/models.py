@@ -4,7 +4,7 @@ import psycopg2
 from datetime import datetime
 import json
 import sys
-
+from django.conf import settings
 import socket
 
 # Create your models here.
@@ -13,11 +13,11 @@ class   postgredb():
 
     def __init__(self):
 
-        self.host='localhost'
-        self.database='ecd_database'
-        self.user='postgres'
-        self.password='gabc3150'
-        self.port=5432
+        self.host = settings.DATABASES['default']['HOST']
+        self.database = settings.DATABASES['default']['NAME']
+        self.user = settings.DATABASES['default']['USER']
+        self.password = settings.DATABASES['default']['PASSWORD']
+        self.port = settings.DATABASES['default']['PORT']
         try:
             self.connection = psycopg2.connect(database = self.database,  user = self.user, host= self.host, password = self.password, port = self.port)
         except psycopg2.DatabaseError:

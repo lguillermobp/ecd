@@ -5,19 +5,7 @@
 {% block head %}
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    Shadowbox.init({
-    overlayOpacity: "0.5"
-    });
-    
-    function add() {
-        Shadowbox.open({ 
-            content:    '/insurance_adj_add/', 
-            player:     "iframe", 
-            title:      "{{nametittle}}", 
-            height:     500, 
-            width:      1000 
-        }); 
-    };
+   
 
     google.charts.load('current', {'packages':['bar']});
       google.charts.setOnLoadCallback(drawChart);
@@ -36,7 +24,7 @@
         var options = {
             
           chart: {
-            title: 'Disptpach Plan',
+            title: 'Dispatch Plan',
             subtitle: 'Customers Transferred and Items Left',
           },
           series: {
@@ -82,7 +70,7 @@
                 <tr>
                     <td>
                         <div class="bg-image hover-zoom">
-                            <a href="/netsuite/dp_refreshnetsuite" ><img src="{% static '/images/Refresh NetSuite.gif' %}" class="w-100" tittle="Add Customer" width="45" height="45"alt=""></a>
+                            <a href="/netsuite/dp_refreshnetsuite" ><img src="{% static 'images/RefreshNetsuite.jpg' %}" class="w-100" tittle="Add Customer" width="45" height="45"alt=""></a>
                         </div>
                     </td>
                     <td >

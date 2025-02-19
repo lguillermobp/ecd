@@ -27,6 +27,8 @@ urlpatterns = [
     path('', include("main.urls")),
     path('ppddashboard/', include("ppddashboard.urls")),
     path('netsuite/', include("netsuite.urls")),
+    path('schedule/<plid>', include("schedule.urls")),
+    path('lpr/', include("lpr.urls")),
     path('dispatchplan/<plid>/<csid>', include("dispatchplan.urls")),
     path("admin/", admin.site.urls)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

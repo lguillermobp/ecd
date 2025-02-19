@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import socket
 import os
 import os.path
 from django.urls import reverse_lazy
@@ -43,7 +44,9 @@ INSTALLED_APPS = [
     'main',
     'ppddashboard',
     'dispatchplan',
-    'netsuite'
+    'netsuite',
+    'schedule',
+    'lpr'
 ]
 
 MIDDLEWARE = [
@@ -80,17 +83,30 @@ WSGI_APPLICATION = 'ecd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecd_database',
-        'USER': 'postgres',
-        'PASSWORD': 'gabc3150',
-        'HOST': 'localhost',
-        'PORT': '5432' 
-    }
-}
 
+print(socket.gethostname())
+if socket.gethostname()=='Laptop-AsusLB':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'ecd_database',
+            'USER': 'postgres',
+            'PASSWORD': 'gabc3150',
+            'HOST': 'localhost',
+            'PORT': '5432' 
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'ecd_database',
+            'USER': 'super',
+            'PASSWORD': 'Ecd12345678',
+            'HOST': 'ecdsystem-4356.postgres.pythonanywhere-services.com',
+            'PORT': '14356'
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
