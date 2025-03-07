@@ -132,12 +132,13 @@ class Class_NetSuite():
 
             taskdec = det['task_sc'].replace("&gt;", ">")
             memo = det['memo'].replace("'", " ")
+            item = det['item'].replace("'", " ")
            
 
             sql="""
             INSERT INTO public.dispatch_plan(
 	        productionline, section, task_sc_id, task_sc, task_sc_enddate, tranid, trandate, altname, quantitycommitted, quantitytransfered, itemdleft, quantitybo, recordn, totalitemsbo, invoicedate, memo, item, item_id, dateformula, wo_id,so_id,ecd_model,productionlineid,customer_id)
-	        VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '0{8}', '0{9}', '{10}', '{11}', '{12}', '0{13}', '{14}', '{15}', '{16}', '{17}', '{18}', '{19}','{20}','{21}','{22}','{23}')""".format(det['productionline'], det['section'], det['task_sc_id'], taskdec,det['task_sc_enddate'], det['tranid'], det['trandate'], det['altname'], det['quantitycommitted'], det['quantitytransfered'], det['itemsleft'], det['quantitybo'], i , det['totalitemsbo'], det['invoicedate'],memo, det['item'], det['item_id'], det['dateformula'], det['wo_id'], det['so_id'], det['ECD_Model'], det['productionlineid'], det['customer_id']) 
+	        VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '0{8}', '0{9}', '{10}', '{11}', '{12}', '0{13}', '{14}', '{15}', '{16}', '{17}', '{18}', '{19}','{20}','{21}','{22}','{23}')""".format(det['productionline'], det['section'], det['task_sc_id'], taskdec,det['task_sc_enddate'], det['tranid'], det['trandate'], det['altname'], det['quantitycommitted'], det['quantitytransfered'], det['itemsleft'], det['quantitybo'], i , det['totalitemsbo'], det['invoicedate'],memo, item, det['item_id'], det['dateformula'], det['wo_id'], det['so_id'], det['ECD_Model'], det['productionlineid'], det['customer_id']) 
 
             self.connn.update(sql)
             i=i+1

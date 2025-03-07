@@ -30,5 +30,6 @@ urlpatterns = [
     path('schedule/<plid>', include("schedule.urls")),
     path('lpr/', include("lpr.urls")),
     path('dispatchplan/<plid>/<csid>', include("dispatchplan.urls")),
+    path('ppdprojections/<plid>/<csid>', include("ppdprojections.urls")),
     path("admin/", admin.site.urls)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

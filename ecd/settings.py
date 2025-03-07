@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'dispatchplan',
     'netsuite',
     'schedule',
-    'lpr'
+    'lpr',
+    'ppdprojections'
 ]
 
 MIDDLEWARE = [
